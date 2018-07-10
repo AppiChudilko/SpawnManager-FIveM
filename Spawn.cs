@@ -47,7 +47,6 @@ namespace Client.Managers
                 return;
 
             _spawnLock = true;
-            uint spawnModel = (uint) GetHashKey(skin);
 
             DoScreenFadeOut(500);
 
@@ -57,16 +56,8 @@ namespace Client.Managers
             }
 
             FreezePlayer(PlayerId(), true);
-            RequestModel(spawnModel);
-            
-            while (!HasModelLoaded(spawnModel))
-            {
-                RequestModel(spawnModel);
-                await Delay(1);
-            }
-
-            SetPlayerModel(PlayerId(), spawnModel);
-            SetModelAsNoLongerNeeded(spawnModel);
+            await Game.Player.ChangeModel(GetHashKey(skin));
+            SetPedDefaultComponentVariation(GetPlayerPed(-1));
             RequestCollisionAtCoord(x, y, z);
 
             var ped = GetPlayerPed(-1);
