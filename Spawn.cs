@@ -68,7 +68,7 @@ namespace Client.Managers
             RemoveAllPedWeapons(ped, false);
             ClearPlayerWantedLevel(PlayerId());
             
-            while (HasCollisionLoadedAroundEntity(ped))
+            while (!HasCollisionLoadedAroundEntity(ped))
             {
                 await Delay(1);
             }
